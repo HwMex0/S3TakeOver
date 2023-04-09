@@ -33,8 +33,9 @@ There are two ways to use the script:
 1. Provide a file containing a list of domains (one per line) using the `-f` or `--file` argument:
 `python s3takeover.py -f domains.txt`
 
-2. Provide a single domain using the -d or --domain argument. The script will use Google Dork to enumerate subdomains for the specified domain:
-`python s3takeover.py -d example.com`
+2. Provide a single domain using the -d or --domain argument. The script will use Google Dork to enumerate subdomains for the specified domain: 
+
+    `python s3takeover.py -d example.com`
 
 You can also set a custom timeout for the domain enumeration requests using the `-t` or `--timeout` argument (default is 2 seconds):
 `python s3takeover.py -d example.com -t 5`
