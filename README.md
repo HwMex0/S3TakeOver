@@ -1,6 +1,6 @@
 # S3TakeOver
 
-S3TakeOver is a Python script that checks for potential subdomain takeover vulnerabilities when a DNS record points to a non-existing S3 bucket. This tool is designed for educational purposes and should be used responsibly.
+S3TakeOver is a simple Python script that checks for potential subdomain takeover vulnerabilities when a DNS record points to a non-existing S3 bucket. This tool is designed for educational purposes and should be used responsibly.
 
 # S3 Subdomain Takeover Checker & Exploiter
 
