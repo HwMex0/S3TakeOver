@@ -1,7 +1,7 @@
 import requests
 import argparse
 from googlesearch import search
-
+import boto3
 
 def print_banner():
     banner = r"""
@@ -22,7 +22,7 @@ def read_domains_from_file(filename):
 def enumerate_subdomains(domain, stop, timeout):
     print('Enumerating subdomains.. \n')
     subdomains = []
-    for url in search(f"site:{domain}", stop=stop):
+    for url in search(f"site:{domain}", num_results=stop):
         subdomain = url.split("//")[-1].split(".")[0]
         if subdomain not in subdomains:
             subdomains.append(subdomain)
@@ -69,10 +69,43 @@ def print_results(matched_domains, non_matched_domains, errored_domains):
     for domain, error in errored_domains:
         print(f"  [*] {domain}")
 
+def create_s3_website(domain, aws_access_key_id, aws_secret_access_key):
+    s3 = boto3.client('s3', aws_access_key_id=aws_access_key_id, aws_secret_access_key=aws_secret_access_key)
+
+    bucket_name = domain
+    html_content = """
+    <html>
+        <head>
+            <title>Static S3 Website</title>
+        </head>
+        <body>
+            <h1>Hello, World!</h1>
+        </body>
+    </html>
+    """
+
+    try:
+        s3.create_bucket(Bucket=bucket_name)
+        s3.put_bucket_website(
+            Bucket=bucket_name,
+            WebsiteConfiguration={
+                'ErrorDocument': {'Key': 'error.html'},
+                'IndexDocument': {'Suffix': 'index.html'},
+            }
+        )
+        s3.put_object(Bucket=bucket_name, Key='index.html', Body=html_content, ContentType='text/html')
+        print(f"S3 website created for {domain}")
+    except Exception as e:
+        print(f"Error creating S3 website for {domain}: {e}")
+
+
 if __name__ == "__main__":
     args = parse_arguments()
     filename = args.file
     timeout = args.timeout
+    aws_access_key_id = "Enter your AWS access key ID"
+    aws_secret_access_key = "Enter your AWS secret access key"
+
     if args.file:
         domains = read_domains_from_file(filename)
         matched_domains, non_matched_domains, errored_domains = check_subdomains(domains, timeout)
@@ -83,3 +116,6 @@ if __name__ == "__main__":
         print_results(matched_domains, non_matched_domains, errored_domains)
     else:
         print('--domain or --file arguments are required')
+
+    for domain in matched_domains:
+        create_s3_website(domain, aws_access_key_id, aws_secret_access_key)
