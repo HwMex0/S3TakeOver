@@ -19,10 +19,14 @@ A subdomain takeover vulnerability occurs when a DNS record points to a resource
 
 ## Installation
 
-No installation is needed. Simply download the script and make sure you have Python 3 and the `requests` and `googlesearch-python` libraries installed. You can install the libraries using pip:
-
+To install the dependencies listed in the requirements.txt file, use the following command:
 ```bash
-pip install requests googlesearch-python
+pip install -r requirements.txt
+```
+
+Or
+```bash
+pip install requests googlesearch-python boto3
 ```
 
 
