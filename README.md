@@ -38,4 +38,4 @@ After the script finishes running, it will print the results in three categories
     4. Error Occurred: Domains where an error occurred during the check.
     
     
-Remember to use this tool responsibly and for educational purposes only
+Remember to use this tool responsibly and for educational purposes only 
