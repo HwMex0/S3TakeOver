@@ -56,7 +56,6 @@ def parse_arguments():
     return parser.parse_args()
 
 def print_results(matched_domains, non_matched_domains, errored_domains):
-    print_banner()
     print("\nVulnerable Domains:")
     for domain in matched_domains:
         print(f"  [+] {domain}")
@@ -100,6 +99,7 @@ def create_s3_website(domain, aws_access_key_id, aws_secret_access_key):
 
 
 if __name__ == "__main__":
+    print_banner()
     args = parse_arguments()
     filename = args.file
     timeout = args.timeout
@@ -119,3 +119,4 @@ if __name__ == "__main__":
 
     for domain in matched_domains:
         create_s3_website(domain, aws_access_key_id, aws_secret_access_key)
+
