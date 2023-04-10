@@ -2,6 +2,7 @@ import requests
 import argparse
 from googlesearch import search
 import boto3
+import getpass
 
 def print_banner():
     banner = r"""
@@ -53,6 +54,7 @@ def parse_arguments():
     parser.add_argument('-t', '--timeout', help='Timeout value for domain enumeration requests in seconds.', type=float, default=2)
     parser.add_argument('-d', '--domain', help='Enumerate domain for subdomains (Google Dork)')
     parser.add_argument('-s', '--stop', type=int, default=20, help='number of search results to be returned')
+    parser.add_argument('-D', '--deploy', action='store_true', help='Deploy S3 takeover on the matched domains.')
     return parser.parse_args()
 
 def print_results(matched_domains, non_matched_domains, errored_domains):
@@ -117,6 +119,9 @@ if __name__ == "__main__":
     else:
         print('--domain or --file arguments are required')
 
-    for domain in matched_domains:
-        create_s3_website(domain, aws_access_key_id, aws_secret_access_key)
+    if args.deploy and matched_domains:
+        aws_access_key_id = input("Enter your AWS access key ID: ")
+        aws_secret_access_key = getpass.getpass("Enter your AWS secret access key: ")
 
+        for domain in matched_domains:
+            create_s3_website(domain, aws_access_key_id, aws_secret_access_key)
