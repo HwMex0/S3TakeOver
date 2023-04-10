@@ -29,6 +29,15 @@ Or
 pip install requests googlesearch-python boto3
 ```
 
+## Arguments
+
+- `-h`, `--help`: Show the help message and exit
+- `-f`, `--file`: Path to the file containing domains, one per line
+- `-t`, `--timeout`: Timeout value for domain enumeration requests in seconds (default: 2)
+- `-d`, `--domain`: Enumerate domain for subdomains (Google Dork)
+- `-s`, `--stop`: Number of search results to be returned (default: 20)
+- `-D`, `--deploy`: Deploy static S3 website with "Hello World" homepage for POC
+
 
 # Usage
 
